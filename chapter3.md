@@ -444,3 +444,249 @@ plt.show()
 
 - 出力結果
 <img src="./nikka-posterization-hist.png" width="60%">
+
+
+### 明度調整
+- 明度調整には入力画像の画素値が1違うと，補正前の画素値がどれだけ増えるかの傾き $a$ と，補正後の最低の画素値 $b$ を設定することで，以下のように書くことができる
+- ただし，画素値が0から255の整数のため，この範囲を超えないように，``np.clip()``を使用する
+  - ``np.clip(画素値変数, 最小値，最大値)``とかくことで，最小値より小さい値を最小値にし，最大値より大きい値を最大値にする
+  - $a$ と $b$ を適宜設定する
+  ```python
+  import numpy as np
+  a = 1
+  b = 100
+  before_pixel_value = np.arange(256)
+  after_pixel_value = before_pixel_value * a + b 
+  after_pixel_value = np.clip(after_pixel_value, 0, 255)
+  after_pixel_value = after_pixel_value.astype(np.uint8)
+  ```
+
+##### matplotlibでプロットする
+- サンプルプログラム
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+a = 1
+b = 100
+before_pixel_value = np.arange(256)
+after_pixel_value = before_pixel_value * a + b 
+after_pixel_value = np.clip(after_pixel_value, 0, 255)
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+plt.plot(after_pixel_value)
+plt.show()
+```
+- 出力結果
+<img src="./brightness.png" width="60%">
+
+- サンプルプログラム（明度調整を適用する）
+```python
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # BGR → グレー
+
+# ルックアップテーブルを作成する
+a = 1
+b = 100
+before_pixel_value = np.arange(256)
+after_pixel_value = before_pixel_value * a + b 
+after_pixel_value = np.clip(after_pixel_value, 0, 255)
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+
+# 画像変換を行う
+after_image = cv2.LUT(image, after_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.gray()
+plt.show()
+```
+
+- 出力結果
+<img src="./nikka-brightness.png" width="60%">
+
+### コントラスト低減
+- 画素値を $a$ 以上 $b$ 以下で直線（1次関数）の関係で収まるように変換する場合，以下のように書くことができる
+  -  $a < b$ となるように，$a, b$ を設定する
+  ```python
+  import numpy as np
+  a = 100
+  b = 200
+  before_pixel_value = np.arange(256)
+  after_pixel_value = a + before_pixel_value / 255 * (b - a)
+  after_pixel_value = after_pixel_value.astype(np.uint8)
+  ```
+
+##### matplotlibでの範囲指定の描画
+- 以下の記述を書くことで，範囲指定プロットができる
+  - ``plt.xlim(a,b)``: x軸の範囲をa以上b以下にする
+  - ``plt.ylim(a,b)``: y軸の範囲をa以上b以下にする
+
+##### matplotlibでプロットする
+- サンプルプログラム
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+a = 100
+b = 200
+before_pixel_value = np.arange(256)
+after_pixel_value = a + before_pixel_value / 255 * (b - a)
+after_pixel_value = after_pixel_value.astype(np.uint8)
+plt.plot(after_pixel_value)
+plt.ylim(0, 255) # y軸を0から255でプロットする
+plt.show()
+```
+
+- 出力結果
+<img src="./contrast.png" width="60%">
+
+- サンプルプログラム（コントラスト低減を適用する）
+```python
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # BGR → グレー
+
+# ルックアップテーブルを作成する
+a = 100
+b = 200
+before_pixel_value = np.arange(256)
+after_pixel_value = a + before_pixel_value / 255 * (b - a)
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 画像変換を行う
+after_image = cv2.LUT(image, after_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.gray()
+plt.show()
+```
+
+- 出力結果
+<img src="./nikka-contrast.png" width="60%">
+
+- サンプルプログラム（コントラスト低減後のヒストグラム）
+```python
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # BGR → グレー
+
+# ルックアップテーブルを作成する
+a = 100
+b = 200
+before_pixel_value = np.arange(256)
+after_pixel_value = a + before_pixel_value / 255 * (b - a)
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 画像変換を行う
+after_image = cv2.LUT(image, after_pixel_value)
+
+# ヒストグラム作成
+hist = cv2.calcHist([after_image], [0], None, [256], [0,256])
+
+# グラフ表示
+plt.plot(hist)
+plt.show()
+```
+
+- 出力結果
+<img src="./nikka-contrast-hist.png" width="60%">
+
+
+### ソラリゼーション（応用事例）
+- 三角関数を使用する
+  - スライドの例の場合，``変換後の画素値 = A sin(4π(変換前の画素値/255 + 3/8)) + A``となる
+  - ただし，A = 255 / 2となる
+  - numpyライブラリをimportしている場合
+    - $\sin$の値は，``np.sin(弧度法角度)``を使用して表現できる
+    - $\pi$は，``np.pi``を使用して表現できる
+  - 以下のプログラムで書くことができる
+  ```python
+  import numpy as np
+  A = 255/2
+  before_pixel_value = np.arange(256)
+  after_pixel_value = A * np.sin(4 * np.pi * (before_pixel_value/255 + 3/8)) + A
+  after_pixel_value = after_pixel_value.astype(np.uint8)
+  ```
+##### matplotlibで描画する
+- サンプルプログラム
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+A = 255/2
+before_pixel_value = np.arange(256)
+after_pixel_value = A * np.sin(4 * np.pi * (before_pixel_value/255 + 3/8)) + A
+after_pixel_value = after_pixel_value.astype(np.uint8)
+plt.plot(after_pixel_value)
+plt.show()
+```
+
+- 出力結果
+<img src="./solarisation.png" width="60%">
+
+- サンプルプログラム（ソラリゼーションを適用する）
+```python
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # BGR → グレー
+
+# ルックアップテーブルを作成する
+A = 255/2
+before_pixel_value = np.arange(256)
+after_pixel_value = A * np.sin(4 * np.pi * (before_pixel_value/255 + 3/8)) + A
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 画像変換を行う
+after_image = cv2.LUT(image, after_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.gray()
+plt.show()
+```
+- 出力結果
+<img src="./nikka-solarisation.png" width="60%">
+
+
+## トーンカーブによるカラー画像の補正
+- 一旦，画素値をコピーする
+  - 画像をRGBで読み込んだ後に，``after_image = image.copy()`` を行う
+  - 基本的には，LUT（ルックアップテーブル）を作成する部分は変わらない
+  - ただし，``cv2.LUT()``をRGBのそれぞれの画素値を適用する
+  - プログラムは以下のようになる（RGBそれぞれに適用する）
+  ```python
+  補正画像変数[:, :, 0] = cv2.LUT(入力画像変数[:, :, 0], 変更後のピクセル画素値変数) # Rに対応する適用
+  補正画像変数[:, :, 1] = cv2.LUT(入力画像変数[:, :, 1], 変更後のピクセル画素値変数) # Gに対応する適用
+  補正画像変数[:, :, 2] = cv2.LUT(入力画像変数[:, :, 2], 変更後のピクセル画素値変数) # Bに対応する適用
+  ```
+- トーンカーブで変更したい場合は，変更後のピクセル画素値変数を適用する
+- トーンカーブで変更したくない場合は，変更前のピクセル画素値変数を適用する
+- RGB形式で画素値が保存されている場合
+  - ``[:, :, 0]``: Rの画素値
+  - ``[:, :, 1]``: Gの画素値
+  - ``[:, :, 2]``: Bの画素値
+- BGR形式で画素値が保存されている場合
+  - ``[:, :, 0]``: Bの画素値
+  - ``[:, :, 1]``: Gの画素値
+  - ``[:, :, 2]``: Rの画素値
+
+

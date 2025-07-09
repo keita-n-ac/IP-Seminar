@@ -112,7 +112,6 @@ plt.show()
 
 - サンプルプログラム（BGR → RGB → GRAYでグレー変換）
 ```python
-# プログラムまとめ
 import cv2
 import matplotlib.pyplot as plt
 image = cv2.imread('soya.jpeg')

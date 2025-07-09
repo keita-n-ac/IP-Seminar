@@ -179,6 +179,10 @@ plt.gray()
 plt.show()
 ```
 
+- 出力結果
+<img src="./output-pgm.png" width="50%">
+
+
 ### PPM形式ファイルの読み込み
 - 画像ファイル``test.ppm``（拡大図）
 <img src="./ppm1.png" width="25%">
@@ -203,4 +207,7 @@ image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
 plt.imshow(image)
 plt.show()
 ```
+
+- 出力結果
+<img src="./output-ppm.png" width="50%">
 

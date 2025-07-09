@@ -13,6 +13,8 @@
 - ライブラリの使用例
   - ライブラリを導入する場合，最初に『``import ライブラリ名``』と書く
   - ライブラリに含まれる機能を使用するには，ドット ``.`` を打ち，機能名を続けることで使用することができる
+
+- サンプルプログラム
 ```python
 # 累乗と平方根を求めるmathライブラリのpow()，sqrt()の使用例
 import math # mathライブラリの導⼊
@@ -23,6 +25,7 @@ print(math.sqrt(2)) # 2の平⽅根（ルート2）
 ```
   - ``as`` を使用することで，ライブラリに別名をつけて使用できる
 
+- サンプルプログラム
 ```python
 # mathライブラリをmという別名をつけた場合における
 # 累乗と平方根を求めるpow()，sqrt()の使用例
@@ -56,8 +59,8 @@ plt.show()
 - 入力画像を``soya.jpeg``とする
 <img src="./soya.jpeg" width="50%">
 
+- サンプルプログラム
 ```python
-# プログラムまとめ
 import cv2
 import matplotlib.pyplot as plt
 # imageが画像変数
@@ -65,6 +68,7 @@ image = cv2.imread('soya.jpeg')
 plt.imshow(image)
 plt.show()
 ```
+
 <img src="./soya-bgr.png" width="50%">
 
 ### OpenCVで画像を読み込む際の注意
@@ -77,9 +81,9 @@ plt.show()
 ```python
 画像変数 = cv2.cvtColor(画像変数, cv2.COLOR_BGR2RGB)
 ```
-- 正しい画像読み込みプログラムの例
+
+- サンプルプログラム
 ```python
-# プログラムまとめ
 import cv2
 import matplotlib.pyplot as plt
 image = cv2.imread('soya.jpeg')
@@ -94,9 +98,8 @@ plt.show()
   - BGRからグレースケールに変換する``cv2.COLOR_BGR2GRAY``やRGBからグレースケールに変換する``cv2.COLOR_RGB2GRAY``を指定する
   - ただし，**matplotlibはカラー画像を標準で出力する**ため，``plt.gray()``を画像表示前に追加する
 
-- BGR → GRAYでグレー変換
+- サンプルプログラム（BGR → GRAYでグレー変換）
 ```python
-# プログラムまとめ
 import cv2
 import matplotlib.pyplot as plt
 image = cv2.imread('soya.jpeg')
@@ -107,7 +110,7 @@ plt.show()
 ```
 <img src="./soya-gray.png" width="50%">
 
-- BGR → RGB → GRAYでグレー変換
+- サンプルプログラム（BGR → RGB → GRAYでグレー変換）
 ```python
 # プログラムまとめ
 import cv2
@@ -126,6 +129,7 @@ plt.show()
 - ``cv2.imwrite(保存ファイル名, 変数名)``を使用する
 - ファイル名は文字列とする
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt

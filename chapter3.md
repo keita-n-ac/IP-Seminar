@@ -689,4 +689,204 @@ plt.show()
   - ``[:, :, 1]``: Gの画素値
   - ``[:, :, 2]``: Rの画素値
 
+- サンプルプログラム（赤の画素値を255にする）
+```python
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
 
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+# 一旦，画素値をすべてコピーする
+after_image = image.copy()
+
+# ルックアップテーブルを作成する
+before_pixel_value = np.arange(256)
+# 画素値を+255する
+after_pixel_value = before_pixel_value + 255
+# 画素値を0から255にする
+after_pixel_value = np.clip(after_pixel_value, 0, 255)
+# 画素値を小数から整数にする
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 画像変換を行う（Rは変更後の画素値，GとBは変更前の画素値を使用）
+after_image[:, :, 0] = cv2.LUT(image[:, :, 0], after_pixel_value)
+after_image[:, :, 1] = cv2.LUT(image[:, :, 1], before_pixel_value)
+after_image[:, :, 2] = cv2.LUT(image[:, :, 2], before_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.show()
+```
+
+- 出力結果
+<img src="./nikka-change-r.png" width="60%">
+
+- サンプルプログラム（緑の画素値を255にする）
+```python
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+# 一旦，画素値をすべてコピーする
+after_image = image.copy()
+
+# ルックアップテーブルを作成する
+before_pixel_value = np.arange(256)
+# 画素値を+255する
+after_pixel_value = before_pixel_value + 255
+# 画素値を0から255にする
+after_pixel_value = np.clip(after_pixel_value, 0, 255)
+# 画素値を小数から整数にする
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 画像変換を行う（Rは変更後の画素値，GとBは変更前の画素値を使用）
+after_image[:, :, 0] = cv2.LUT(image[:, :, 0], before_pixel_value)
+after_image[:, :, 1] = cv2.LUT(image[:, :, 1], after_pixel_value)
+after_image[:, :, 2] = cv2.LUT(image[:, :, 2], before_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.show()
+```
+
+- 出力結果
+<img src="./nikka-change-g.png" width="60%">
+
+- サンプルプログラム（青の画素値を255にする）
+```python
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+# 一旦，画素値をすべてコピーする
+after_image = image.copy()
+
+# ルックアップテーブルを作成する
+before_pixel_value = np.arange(256)
+# 画素値を+255する
+after_pixel_value = before_pixel_value + 255
+# 画素値を0から255にする
+after_pixel_value = np.clip(after_pixel_value, 0, 255)
+# 画素値を小数から整数にする
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 画像変換を行う（Rは変更後の画素値，GとBは変更前の画素値を使用）
+after_image[:, :, 0] = cv2.LUT(image[:, :, 0], before_pixel_value)
+after_image[:, :, 1] = cv2.LUT(image[:, :, 1], before_pixel_value)
+after_image[:, :, 2] = cv2.LUT(image[:, :, 2], after_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.show()
+```
+
+- 出力結果
+<img src="./nikka-change-b.png" width="60%">
+
+
+- サンプルプログラム（Rだけネガポジ変換）
+```python 
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+# 一旦，画素値をすべてコピーする
+after_image = image.copy()
+
+# ルックアップテーブルを作成する
+# ネガポジ変換
+before_pixel_value = np.arange(256) # 変換前
+after_pixel_value = 255 - before_pixel_value # 変換後
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 画像変換を行う（Rは変更後の画素値，GとBは変更前の画素値を使用）
+after_image[:, :, 0] = cv2.LUT(image[:, :, 0], after_pixel_value)
+after_image[:, :, 1] = cv2.LUT(image[:, :, 1], before_pixel_value)
+after_image[:, :, 2] = cv2.LUT(image[:, :, 2], before_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.show()
+```
+
+- 出力結果
+<img src="./nikka-negaposi-r.png" width="60%">
+
+- サンプルプログラム（RGBすべてにガンマ変換）
+```python 
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+# 一旦，画素値をすべてコピーする
+after_image = image.copy()
+
+# ルックアップテーブルを作成する
+gamma = 3.0
+before_pixel_value = np.arange(256)
+after_pixel_value = 255 * (before_pixel_value / 255) ** (1 / gamma)
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 各画素に画像変換を行う
+after_image[:, :, 0] = cv2.LUT(image[:, :, 0], after_pixel_value)
+after_image[:, :, 1] = cv2.LUT(image[:, :, 1], after_pixel_value)
+after_image[:, :, 2] = cv2.LUT(image[:, :, 2], after_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.show()
+```
+- 出力結果
+<img src="./nikka-gamma-rgb.png" width="60%">
+
+- サンプルプログラム（RGBすべてにポスタリゼーション）
+```python 
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+# 画像読み込み
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+# 一旦，画素値をすべてコピーする
+after_image = image.copy()
+
+# ルックアップテーブルを作成する
+level = 2 # 2段階
+before_pixel_value = np.arange(256)
+after_pixel_value = before_pixel_value // (256 / level) * 255 / (level - 1)
+after_pixel_value = after_pixel_value.astype(np.uint8)
+
+# 各画素に画像変換を行う
+after_image[:, :, 0] = cv2.LUT(image[:, :, 0], after_pixel_value)
+after_image[:, :, 1] = cv2.LUT(image[:, :, 1], after_pixel_value)
+after_image[:, :, 2] = cv2.LUT(image[:, :, 2], after_pixel_value)
+
+# 画像表示
+plt.imshow(after_image)
+plt.show()
+
+# RGBの各画素が2通りなので，8色で描画する（2の3乗が8なので）
+```
+- 出力結果
+<img src="./nikka-posterization-rgb.png" width="60%">

@@ -102,3 +102,94 @@ plt.imshow(Y)
 plt.gray()
 plt.show()
 ```
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+red = image[:,:,0]
+green = image[:,:,1]
+blue = image[:,:,2]
+Y = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+
+after_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+
+plt.figure(figsize=(10, 4)) # 横10インチ，縦4インチ
+
+plt.subplot(121) # 縦1分割，横2分割の1番目に描画
+plt.title('Y = 0.2126R + 0.7152G + 0.0722B')
+plt.gray()
+plt.imshow(Y)
+
+plt.subplot(122) # 縦1分割，横2分割の2番目に描画
+plt.title('cv2.COLOR_RGB2GRAY')
+plt.gray()
+plt.imshow(after_image)
+
+plt.show()
+```
+
+### BGR色空間
+- OpenCVでは，BGRでデータを扱う場合，以下の方法でRGBの各値を取得できる
+  - 赤画素値: ``BGR画像変数[:,:,2]``
+  - 緑画素値: ``BGR画像変数[:,:,1]``
+  - 青画素値: ``BGR画像変数[:,:,0]``
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+image = cv2.imread('nikka.jpeg')
+
+# BGR形式なので
+red = image[:,:,2]
+green = image[:,:,1]
+blue = image[:,:,0]
+
+plt.figure(figsize=(10, 3)) # 横10インチ，縦3インチ
+
+plt.subplot(131) # 縦1分割，横3分割の1番目に描画
+red_hist = cv2.calcHist([red], [0], None, [256], [0,256])
+plt.title('Red Histogram')
+plt.plot(red_hist, color='r')
+
+plt.subplot(132) # 縦1分割，横3分割の2番目に描画
+green_hist = cv2.calcHist([green], [0], None, [256], [0,256])
+plt.title('Green Histogram')
+plt.plot(green_hist, color='g')
+
+plt.subplot(133) # 縦1分割，横3分割の3番目に描画
+blue_hist = cv2.calcHist([blue], [0], None, [256], [0,256])
+plt.title('Blue Histogram')
+plt.plot(blue_hist, color='b')
+
+plt.show()
+```
+
+### HSV色空間
+- OpenCVでは，HSVでデータを扱う場合，以下の方法でHSVの各値を取得できる
+  - 色彩(H): ``HSV画像変数[:,:,0]``
+  - 彩度(S): ``HSV画像変数[:,:,1]``
+  - 明度(V): ``HSV画像変数[:,:,2]``
+- ただし，opencvで色彩(H)を0〜180で扱うため注意が必要
+
+```python
+import cv2
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) # BGR → HSV
+
+# HSV形式なので
+hue = image[:,:,0]
+saturation = image[:,:,1]
+value = image[:,:,2]
+
+print('hue')
+print(hue)
+
+print('saturation')
+print(saturation)
+
+print('value')
+print(value)
+```

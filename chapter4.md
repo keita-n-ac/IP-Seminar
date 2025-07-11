@@ -100,6 +100,69 @@ plt.show()
     - 大津の二値化を行う（しきい値は自動的に求まる）
 
 - サンプルプログラム（各二値化の結果出力）
+```python
+import cv2
+import matplotlib.pyplot as plt
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+plt.figure(figsize=(10, 9)) # 横10インチ，縦9インチ
+
+# 1つ目の描画
+plt.subplot(231) # 縦2分割，横3分割の1番目に描画
+plt.title('Gray Image')
+plt.imshow(image)
+plt.gray()
+
+# 2つ目の描画
+# 二値化を行う
+threshold = 127 # しきい値
+value, after_image = cv2.threshold(image, threshold, 255, cv2.THRESH_BINARY)
+plt.subplot(232) # 縦2分割，横3分割の2番目に描画
+plt.title('cv2.THRESH_BINARY')
+plt.imshow(after_image)
+plt.gray()
+
+# 3つ目の描画
+# 二値化を行う
+threshold = 127 # しきい値
+value, after_image = cv2.threshold(image, threshold, 255, cv2.THRESH_BINARY_INV)
+plt.subplot(233) # 縦2分割，横3分割の3番目に描画
+plt.title('cv2.THRESH_BINARY_INV')
+plt.imshow(after_image)
+plt.gray()
+
+# 4つ目の描画
+# 二値化を行う
+threshold = 127 # しきい値
+value, after_image = cv2.threshold(image, threshold, 255, cv2.THRESH_TRUNC)
+plt.subplot(234) # 縦2分割，横3分割の4番目に描画
+plt.title('cv2.THRESH_TRUNC')
+plt.imshow(after_image)
+plt.gray()
+
+# 5つ目の描画
+# 二値化を行う
+threshold = 127 # しきい値
+value, after_image = cv2.threshold(image, threshold, 255, cv2.THRESH_TOZERO)
+plt.subplot(235) # 縦2分割，横3分割の5番目に描画
+plt.title('cv2.THRESH_TOZERO')
+plt.imshow(after_image)
+plt.gray()
+
+# 6つ目の描画
+# 二値化を行う
+threshold = 127 # しきい値
+value, after_image = cv2.threshold(image, threshold, 255, cv2.THRESH_TOZERO_INV)
+plt.subplot(236) # 縦2分割，横3分割の6番目に描画
+plt.title('cv2.THRESH_TOZERO_INV')
+plt.imshow(after_image)
+plt.gray()
+
+# 全体を表示
+plt.show()
+```
+
 
 - 出力結果
 <img src="./six-binarization.png" width="100%">
@@ -241,7 +304,7 @@ plt.gray()
 plt.show()
 ```
 - 出力結果
-<img src="./black-image.png" width="100%">
+<img src="./black-image.png" width="75%">
 
 
 ### 白抜き部分を追加

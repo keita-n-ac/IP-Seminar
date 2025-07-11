@@ -102,7 +102,7 @@ plt.show()
 - サンプルプログラム（各二値化の結果出力）
 
 - 出力結果
-<img src="./six-binarization.png" width="75%">
+<img src="./six-binarization.png" width="100%">
 
 - サンプルプログラム（大津の二値化）
 ```python

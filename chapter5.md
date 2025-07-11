@@ -205,7 +205,7 @@ hue = image[:,:,0]
 saturation = image[:,:,1]
 value = image[:,:,2]
 
-plt.figure(figsize=(6, 12)) # 横6インチ，縦12インチ
+plt.figure(figsize=(8, 12)) # 横8インチ，縦12インチ
 plt.subplot(321)
 plt.title('Hue')
 plt.gray()
@@ -237,5 +237,75 @@ value_hist = cv2.calcHist([value], [0], None, [256], [0,256])
 plt.title('Value Histogram')
 plt.plot(value_hist)
 
+plt.show()
+```
+
+### HSV色空間
+- HSV色空間は色彩が0から360の値になるので，色彩の値を絞りこむことで特定の色を抽出できる
+  - 色彩の代表値
+    - 0付近: 赤色
+    - 60付近: 黄色
+    - 120付近: 緑色
+    - 180付近: シアン色
+    - 240付近: 青色
+    - 300付近: マゼンタ色
+  - ただし，**opencvでは，色彩は以下のように扱う（値が半分になる）**
+    - 0付近: 赤色
+    - 30付近: 黄色
+    - 60付近: 緑色
+    - 90付近: シアン色
+    - 120付近: 青色
+    - 150付近: マゼンタ色
+
+### HSVを使用したマスク画像の作成
+- OpenCVの``cv2.inRange``を使用することで，HSVの要素によるマスク画像を作成できる
+  - ``hsv下限の値変数 = np.array([色彩の下限値, 彩度の下限値, 明度の下限値], np.uint8)``
+  - ``hsv上限の値変数 = np.array([色彩の上限値, 彩度の上限値, 明度の上限値], np.uint8)``
+  - ``マスク画像変数 = cv2.inRange(HSV画像変数, hsv下限の値変数, hsv上限の値変数)``
+   
+- 以下の画像（color-sample.png）を使用して，特定の色だけを抜き出すプログラムを考える
+
+- サンプルプログラム
+```python
+# color-sample.pngおよびHの調査
+import cv2
+import matplotlib.pyplot as plt
+
+image = cv2.imread('color-sample.png')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # BGR → RGB
+
+plt.figure(figsize=(10, 4)) # 横10インチ，縦4インチ
+plt.subplot(121)
+plt.title('Image')
+plt.imshow(image)
+
+image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV) # BGR → HSV
+hue = image[:,:,0]
+plt.subplot(122)
+hue_hist = cv2.calcHist([hue], [0], None, [256], [0,256])
+plt.xlim(0, 180)
+plt.title('Hue Histogram')
+plt.plot(hue_hist)
+
+plt.show()
+```
+
+- hueのヒストグラムで，山があるところが色相がある部分である
+
+```python
+# 黄色だけ抜き出すマスクを作成する
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+image = cv2.imread('color-sample.png')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) # BGR → HSV
+
+# 黄色はhueのヒストグラムで30付近なので（数値は手作業で求める）
+min = np.array([25, 50, 50], np.uint8)
+max = np.array([35, 255, 255], np.uint8)
+mask = cv2.inRange(image, min, max)
+
+plt.imshow(mask)
+plt.gray() # マスク画像は白黒画像なので
 plt.show()
 ```

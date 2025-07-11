@@ -193,3 +193,49 @@ print(saturation)
 print('value')
 print(value)
 ```
+
+```python
+import cv2
+import matplotlib.pyplot as plt
+image = cv2.imread('nikka.jpeg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) # BGR → HSV
+
+# HSV形式なので
+hue = image[:,:,0]
+saturation = image[:,:,1]
+value = image[:,:,2]
+
+plt.figure(figsize=(6, 12)) # 横6インチ，縦12インチ
+plt.subplot(321)
+plt.title('Hue')
+plt.gray()
+plt.imshow(hue)
+
+plt.subplot(322)
+hue_hist = cv2.calcHist([hue], [0], None, [256], [0,256])
+plt.xlim(0, 180)
+plt.title('Hue Histogram')
+plt.plot(hue_hist)
+
+plt.subplot(323)
+plt.title('Saturation')
+plt.gray()
+plt.imshow(saturation)
+
+plt.subplot(324)
+saturation_hist = cv2.calcHist([saturation], [0], None, [256], [0,256])
+plt.title('Saturation Histogram')
+plt.plot(saturation_hist)
+
+plt.subplot(325)
+plt.title('Value')
+plt.gray()
+plt.imshow(value)
+
+plt.subplot(326)
+value_hist = cv2.calcHist([value], [0], None, [256], [0,256])
+plt.title('Value Histogram')
+plt.plot(value_hist)
+
+plt.show()
+```

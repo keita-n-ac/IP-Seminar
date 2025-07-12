@@ -11,7 +11,7 @@
 | 色空間 | https://github.com/keita-n-ac/IP-Seminar/blob/main/chapter5.md |
 | モルフォロジー演算 | https://github.com/keita-n-ac/IP-Seminar/blob/main/chapter6.md |
 | フィルタリング・エッジ検出 | https://github.com/keita-n-ac/IP-Seminar/blob/main/chapter7.md |
-| 物体検知 | https://github.com/keita-n-ac/IP-Seminar/blob/main/chapter6.md |
+| 物体検知 | https://github.com/keita-n-ac/IP-Seminar/blob/main/chapter8.md |
 
 
 

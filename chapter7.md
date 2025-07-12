@@ -368,6 +368,7 @@ plt.subplot(211)
 plt.title('Before filtering')
 plt.imshow(image)
 
+# 鮮鋭化フィルタ（4方向カーネル）
 k = 1 # ここを変える（k は1以上の整数）
 kernel = np.array([[0, -k, 0],
                    [-k, 1 + 4 * k, -k],

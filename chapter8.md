@@ -391,3 +391,39 @@ print(result2[1])
     - **各値が小数なので，すべて整数型に変更する必要がある**
       - ``int(小数値)``で小数値を整数に変更できる
 
+- ここまでのプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目のバウンディングボックスを求める
+x0 = int(result2[0][0])
+y0 = int(result2[0][1])
+w0 = int(result2[0][2])
+h0 = int(result2[0][3])
+cv2.rectangle(image, (x0, y0, w0, h0), (255, 0, 0), 10)
+
+# 二人目のバウンディングボックスを求める
+x1 = int(result2[1][0])
+y1 = int(result2[1][1])
+w1 = int(result2[1][2])
+h1 = int(result2[1][3])
+cv2.rectangle(image, (x1, y1, w1, h1), (0, 255, 0), 10)
+
+plt.imshow(image)
+plt.show()
+```

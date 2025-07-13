@@ -330,8 +330,8 @@ plt.show()
     - 90付近: シアン色
     - 120付近: 青色
     - 150付近: マゼンタ色
-- 色彩目安
-<img src="./colorbar.png" width="90%">
+  - opencvでの色彩目安
+  <img src="./colorbar.png" width="90%">
 
 ### HSVを使用したマスク画像の作成
 - OpenCVの``cv2.inRange``を使用することで，HSVの要素によるマスク画像を作成できる
@@ -340,6 +340,7 @@ plt.show()
   - ``マスク画像変数 = cv2.inRange(HSV画像変数, hsv下限の値変数, hsv上限の値変数)``
    
 - 以下の画像（color-sample.png）を使用して，特定の色だけを抜き出すプログラムを考える
+<img src="./color-sample.png" width="60%">
 
 - サンプルプログラム
 ```python
@@ -365,11 +366,13 @@ plt.plot(hue_hist)
 
 plt.show()
 ```
+- 出力結果
+<img src="./color-hue.png" width="100%">
 
 - hueのヒストグラムで，山があるところが色相がある部分である
 
+- サンプルプログラム（黄色だけ抜き出すマスクを作成する）
 ```python
-# 黄色だけ抜き出すマスクを作成する
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -385,11 +388,14 @@ plt.imshow(mask)
 plt.gray() # マスク画像は白黒画像なので
 plt.show()
 ```
+- 出力結果
+<img src="./mask-y.png" width="60%">
 
 - このHSVによるマスク処理は，以下のプログラムで行う（**前回行った内容ではエラーになるので注意**）
   1. ``RGB画像変数 = cv2.cvtColor(HSV画像変数, cv2.COLOR_HSV2RGB)``
   2. ``マスク処理後画像変数 = cv2.bitwise_and(RGB画像変数, RGB画像変数, mask=マスク画像変数)``
 
+- サンプルプログラム
 ```python
 # 黄色だけ抜き出すマスクを作成し適用する
 import cv2
@@ -412,7 +418,10 @@ after_image = cv2.bitwise_and(image, image, mask=mask)
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./extract-y.png" width="60%">
 
+- サンプルプログラム
 ```python
 import cv2
 import numpy as np
@@ -451,9 +460,11 @@ plt.imshow(after_image)
 
 plt.show()
 ```
-
+- 出力結果
+<img src="./extract-y3.png" width="100%">
 
 - 色彩が連続してる色を抽出する場合，``cv2.inRange``の幅を広くすれば複数の色を抽出できる
+- サンプルプログラム
 ```python
 # 黄色とオレンジだけ抜き出すマスクを作成する
 import cv2
@@ -477,10 +488,12 @@ after_image = cv2.bitwise_and(image, image, mask=mask)
 plt.imshow(after_image)
 plt.show()
 ```
-
+- 出力結果
+<img src="./extract-oy.png" width="60%">
 
 - 色彩が連続していない色を抽出する場合，マスク画像を組み合わせることで，複数の色を抽出できる
-- maskの組み合わせ: ``全体のマスク変数 = cv2.bitwise_or(マスク変数1, マスク変数2)``
+  - maskの組み合わせ: ``全体のマスク変数 = cv2.bitwise_or(マスク変数1, マスク変数2)``
+- サンプルプログラム
 ```python
 # 黄色と青色だけ抜き出すマスクを作成する
 import cv2
@@ -510,8 +523,11 @@ after_image = cv2.bitwise_and(image, image, mask=mask)
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./extract-yb.png" width="60%">
 
 - 赤付近を抜き出す場合は，0付近であるので，0〜5, 175〜179ぐらいで抜き出す
+- サンプルプログラム
 ```python
 # 赤色を抜き出すマスクを作成する
 import cv2
@@ -540,8 +556,11 @@ after_image = cv2.bitwise_and(image, image, mask=mask)
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./extract-r.png" width="60%">
 
 - マスクを色々と組み合わせることで，特定の複数色を抜き出すことができる
+- サンプルプログラム
 ```python
 # 赤色と黄色と青色を抜き出すマスクを作成する
 import cv2
@@ -582,12 +601,18 @@ after_image = cv2.bitwise_and(image, image, mask=mask)
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./extract-ryb.png" width="60%">
+
 
 ### RGBA画像の読み込み
 - OpenCVでRGBA画像を読み込む場合，``cv2.imread(画像ファイル名, -1)``と書く
 - BGRAの順番で読み込むため，``cv2.COLOR_BGRA2RGBA``を使用して，RGBAの順番に変換して表示する
 
-- サンプル画像（rgba-sample.png）
+- サンプル画像（``rgba-sample.png``）
+<img src="./rgba-sample.png" width="30%">
+
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -600,17 +625,20 @@ image = cv2.cvtColor(image, cv2.COLOR_BGRA2RGBA)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./rgba-output.png" width="30%">
 
 ### RGBA色空間
 - OpenCVでは，RGBAでデータを扱う場合，以下の方法でRGBAの各値を取得できる
-  - 赤画素値: RGBA画像変数[:,:,0]
-  - 緑画素値: RGBA画像変数[:,:,1]
-  - 青画素値: RGBA画像変数[:,:,2]
-  - 透過度: RGBA画像変数[:,:,3]
+  - 赤画素値: ``RGBA画像変数[:,:,0]``
+  - 緑画素値: ``RGBA画像変数[:,:,1]``
+  - 青画素値: ``RGBA画像変数[:,:,2]``
+  - 透過度: ``RGBA画像変数[:,:,3]``
     - **透過度は0から255の値で扱うため，0が透明，255が不透明になる**
       - グレースケールで表示すると，255（白の箇所: 不透明箇所）が0（黒の箇所: 透明箇所）となる
       - 白に近い灰色は透過度が高く不透明，黒に近い灰色は透過度が低く透明になる
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -625,7 +653,10 @@ plt.imshow(alpha)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./rgba-output2.png" width="30%">
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -682,15 +713,20 @@ plt.plot(alpha_hist, color='k')
 
 plt.show()
 ```
+- 出力結果
+<img src="./rgba-hist.png" width="90%">
+
 
 ### 2画像の組み合わせ
 - 組み合わせたい2つの画像を用意する
   - **ただし，画像のサイズを合わせる必要がある**
 
 - 使用画像
-  - 画像ファイル1（blend-a-1.png）
-  - 画像ファイル2（blend-a-2.png）
+  - 画像ファイル1（``blend-a-1.png``）
+<img src="./blend-a-1.png" width="40%">
 
+  - 画像ファイル2（``blend-a-2.png``）
+<img src="./blend-a-2.png" width="40%">
 
 ### 画像サイズの確認
 - 画像サイズを確認する場合，``print(画像ファイル変数.shape)``を使用する
@@ -699,6 +735,7 @@ plt.show()
     - ``True``が表示された場合: 『左辺と右辺は等しい』という意味になる
     - ``False``が表示された場合: 『左辺と右辺は等しくない』という意味になる
 
+- サンプルプログラム
 ```python
 import cv2
 image1 = cv2.imread('blend-a-1.png', -1)
@@ -713,11 +750,22 @@ print(image1.shape == image2.shape)
 print(image1.shape == image3.shape)
 print(image2.shape == image3.shape)
 ```
+- 出力結果
+```
+(600, 800, 4)
+(600, 800, 4)
+(800, 533, 3)
+True
+False
+False
+```
+- ``blend-a-1.png``と``blend-a-2.png``のサイズが等しいことが分かる
 
 ### 画素値の組み合わせ
 - 2画像の画素をただ組み合わせる場合，以下のプログラムで実装できる
   - ``組み合わせた画像変数 = 画像1変数 + 画像変数2``
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -738,11 +786,14 @@ blend_image = image1 + image2
 plt.imshow(blend_image)
 plt.show()
 ```
+- 出力結果
+<img src="./blend.png" width="40%">
 
 ### 平均値画像の実装
 - 2画像の画素の平均値の画素を求める場合，以下のプログラムで実装できる  
   - ``組み合わせた画像変数 = (画像1変数 + 画像変数2) // 2``
- 
+
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -763,11 +814,17 @@ blend = (image1 + image2) // 2
 plt.imshow(blend)
 plt.show()
 ```
+- 出力結果
+<img src="./ave-blend.png" width="40%">
+
 
 ### アルファブレンディングの実装
 - 使用画像（https://www.beiz.jp/ からフリー画像を拝借）
-  - 画像ファイル1（blend-b-1.jpg）
-  - 画像ファイル1（blend-b-2.jpg）
+- 画像ファイル1（``blend-b-1.jpg``）
+<img src="./blend-b-1.jpg" width="40%">
+
+- 画像ファイル2（``blend-b-2.jpg``）
+<img src="./blend-b-2.jpg" width="40%">
 
 - 数式: ``出力画像画素値 = α × 入力画像1画素値 + β × 入力画像2画素値 + γ``で計算する
 - プログラムの実装: ``cv2.addWeighted``を使用する
@@ -800,6 +857,8 @@ blend_image = cv2.addWeighted(image1, alpha, image2, 1 - alpha, 0)
 plt.imshow(blend_image)
 plt.show()
 ```
+- 出力結果
+<img src="./alpha-blend.png" width="40%">
 
 - サンプルプログラム
 ```python
@@ -838,11 +897,18 @@ plt.imshow(blend_image)
 
 plt.show()
 ```
+- 出力結果
+<img src="./alpha-blend3.png" width="100%">
+
 
 ### クロマキー合成の実装
 - 使用画像（https://tinyurl.com/2d6hu7y5 から動画を拝借）
-  - 入力ファイル1（green_cat.jpg）
-  - 入力ファイル2（boston.jpeg）
+
+- 入力ファイル1（``green_cat.jpg``）
+<img src="./green_cat.jpg" width="40%">
+
+- 入力ファイル2（``boston.jpeg``）
+<img src="./boston.jpeg" width="40%">
 
 ##### 実装方法
 - Step1: グリーンバックの切り抜きを作り，マスク画像を作成する
@@ -850,6 +916,7 @@ plt.show()
     - 黒が白になる
     - 白が黒になる
 
+- サンプルプログラム（Step1）
 ```python
 import cv2
 import numpy as np
@@ -887,7 +954,12 @@ plt.imshow(mask2)
 plt.show()
 ```
 
+- 出力結果
+<img src="./cat-mask.png" width="100%">
+
 - Step2: 入力ファイル1とmask2のマスク合成，入力ファイル2とmask1のマスク合成を行う
+
+- サンプルプログラム（Step2）
 ```python
 import cv2
 import numpy as np
@@ -929,12 +1001,13 @@ plt.imshow(after_image2)
 
 plt.show()
 ```
+- 出力結果
+<img src="./cat-mask2.png" width="100%">
+
 
 - Step3: Step2で求めた2つのマスク合成画像を組み合わせて，クロマキー合成画像を得る
   - ``クロマキー合成変数 = マスク合成画像1変数 + マスク合成画像2変数``
-
-
-- サンプルプログラム（Step1から3をまとめたもの）
+- サンプルプログラム（Step1, 2, 3）
 ```python
 import cv2
 import numpy as np
@@ -983,3 +1056,5 @@ plt.imshow(after_image3)
 
 plt.show()
 ```
+- 出力結果
+<img src="./chroma-key.png" width="100%">

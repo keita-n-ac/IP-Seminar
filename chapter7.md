@@ -399,7 +399,7 @@ plt.show()
 ```python
 k = 1 # ここを変える（k は1以上の整数）
 kernel = np.array([[0, -k, 0],
-                   [-k, 1 + 8 * k , -k],
+                   [-k, 1 + 4 * k , -k],
                    [0, -k, 0]])
 フィルタリング後画像変数 = cv2.filter2D(画像変数, -1, kernel)
 ```

@@ -163,7 +163,6 @@ plt.gray()
 plt.show()
 ```
 
-
 - 出力結果
 <img src="./six-binarization.png" width="100%">
 
@@ -199,14 +198,11 @@ plt.gray()
 # 全体を表示
 plt.show()
 ```
-
 - 出力結果
 <img src="./otsu-binarization.png" width="75%">
 
 - サンプルプログラム（大津の二値化の画素値ヒストグラム）
 ```python
-
-
 # 画素値ヒストグラムの出力
 
 import cv2
@@ -238,8 +234,6 @@ plt.show()
 - 出力結果
 <img src="./otsu-binarization-hist.png" width="75%">
 
-
-
 ### マスク処理
 - まず始めにマスク画像を用意するため，入力画像の解像度を知る必要がある
   - ``print(画像変数.shape)``とすることで，画像の解像度がわかる
@@ -250,9 +244,8 @@ plt.show()
     - 横のピクセル数は``画像変数.shape[1]``で取得できる
 
 
-- サンプルプログラム
+- サンプルプログラム（カラー画像の場合）
 ```python
-# カラー画像の場合
 import cv2
 image = cv2.imread('nikka.jpeg')
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -260,15 +253,27 @@ print(image.shape)
 print(image.shape[0])
 print(image.shape[1])
 ```
+- 出力結果
+```
+(800, 533, 3)
+800
+533
+```
 
+- サンプルプログラム（グレースケール画像の場合）
 ```python
-# グレースケール画像の場合
 import cv2
 image = cv2.imread('nikka.jpeg')
 image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) # BGR → グレー
 print(image.shape)
 print(image.shape[0])
 print(image.shape[1])
+```
+- 出力結果
+```
+(800, 533)
+800
+533
 ```
 
 ### マスク画像の作成

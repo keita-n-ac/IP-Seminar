@@ -1,6 +1,7 @@
 ### モルフォロジー演算
 
-- 以下の二値化画像（wb.jpg）を使用して，説明を行う
+- 以下の二値化画像（``wb.jpg``）を使用して，説明を行う
+<img src="./wb.jpg" width="50%">
 
 - 代表的なカーネルを作成: ``cv2.getStructuringElement()``を使用する
   - ``cv2.getStructuringElement(cv2.MORPH_RECT,(n, n))``: n × nの矩形（正方形）のカーネルの作成
@@ -30,6 +31,45 @@ print(cv2.getStructuringElement(cv2.MORPH_CROSS,(7, 7)))
 
 # フィルタリング対象領域を1で表示する
 ```
+- 出力結果
+```
+3×3 矩形カーネル
+[[1 1 1]
+ [1 1 1]
+ [1 1 1]]
+5×5 矩形カーネル
+[[1 1 1 1 1]
+ [1 1 1 1 1]
+ [1 1 1 1 1]
+ [1 1 1 1 1]
+ [1 1 1 1 1]]
+7×7 矩形カーネル
+[[1 1 1 1 1 1 1]
+ [1 1 1 1 1 1 1]
+ [1 1 1 1 1 1 1]
+ [1 1 1 1 1 1 1]
+ [1 1 1 1 1 1 1]
+ [1 1 1 1 1 1 1]
+ [1 1 1 1 1 1 1]]
+3×3 十字カーネル
+[[0 1 0]
+ [1 1 1]
+ [0 1 0]]
+5×5 十字カーネル
+[[0 0 1 0 0]
+ [0 0 1 0 0]
+ [1 1 1 1 1]
+ [0 0 1 0 0]
+ [0 0 1 0 0]]
+7×7 十字カーネル
+[[0 0 0 1 0 0 0]
+ [0 0 0 1 0 0 0]
+ [0 0 0 1 0 0 0]
+ [1 1 1 1 1 1 1]
+ [0 0 0 1 0 0 0]
+ [0 0 0 1 0 0 0]
+ [0 0 0 1 0 0 0]]
+```
 
 ### 収縮処理
 - 二値化画像の黒の領域を増やす（白の領域を減らす）
@@ -38,6 +78,7 @@ print(cv2.getStructuringElement(cv2.MORPH_CROSS,(7, 7)))
   - ``cv2.erode()``を使用する
 - 実装例: ``収縮処理画像変数 = cv2.erode(入力画像変数, カーネル変数, iterations=繰り返し数)``
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -58,7 +99,10 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./erode1.png" width="50%">
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -79,6 +123,9 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./erode3.png" width="50%">
+
 
 ### 膨張処理
 - 二値化画像での白の領域を増やす（黒の領域を減らす）
@@ -87,6 +134,7 @@ plt.show()
   - ``cv2.dilate()``を使用する
 - 実装例: ``膨張処理画像変数 = cv2.dilate(入力画像変数, カーネル変数, iterations=繰り返し数)``
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -107,7 +155,10 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./dilate1.png" width="50%">
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -128,13 +179,17 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./dilate3.png" width="50%">
+
 
 ### オープニング処理
 - 収縮処理の後に膨張処理を行う（**効果: 白いノイズを消す効果がある**）
   - ``cv2.morphologyEx()``と``cv2.MORPH_OPEN``を使用する
 - 実装例: ``オープニング処理画像変数 = cv2.morphologyEx(入力画像変数, cv2.MORPH_OPEN, カーネル変数, iterations=繰り返し数)``
 
-- 使用画像(wb_white_noise.jpg)
+- 使用画像(``wb_white_noise.jpg``)
+<img src="./wb_white_noise.jpg" width="50%">
 
 - サンプルプログラム
 ```python
@@ -157,18 +212,20 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./opening.png" width="50%">
+
 
 ### クロージング処理
 - 膨張処理の後に収縮処理を行う（**効果: 黒いノイズを消す効果がある**)
   - ``cv2.morphologyEx()``と``cv2.MORPH_CLOSE``を使用する
 - 実装例: ``クロージング処理画像変数 = cv2.morphologyEx(入力画像変数, cv2.MORPH_CLOSE, カーネル変数, iterations=繰り返し数)``
 
-- 使用画像(wb_black_noise.jpg)
+- 使用画像(``wb_black_noise.jpg``)
+<img src="./wb_black_noise.jpg" width="50%">
 
 - サンプルプログラム
 ```python
-
-
 import cv2
 import matplotlib.pyplot as plt
 
@@ -188,6 +245,8 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./closing.png" width="50%">
 
 ### モルフォロジー勾配
 - 膨張した画像と収縮した画像の差分をとる処理（**効果: 結果として境界線を表示できる**）
@@ -195,6 +254,7 @@ plt.show()
 - 実装例: ``モルフォロジー勾配画像変数 = cv2.morphologyEx(入力画像変数, cv2.MORPH_GRADIENT, カーネル変数, iterations=繰り返し数)``
 
 - 使用画像(wb.jpg)
+<img src="./wb.jpg" width="50%">
 
 - サンプルプログラム
 ```python
@@ -217,7 +277,10 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./morphology1.png" width="50%">
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -238,3 +301,5 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./morphology3.png" width="50%">

@@ -48,6 +48,15 @@ print(hist[255])
 plt.plot(hist)
 plt.show()
 ```
+- 出力結果
+```
+[0.]
+[1070.]
+[3052.]
+[2562.]
+[0.]
+```
+<img src="./nikka-hist.png" width="60%">
 
 - ``plt.plot(hist, color=色文字列)``とすることで，描画の色を変更できる
   - ``'r'`` : 赤

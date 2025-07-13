@@ -54,8 +54,6 @@ plt.imshow(画像変数)
 plt.show()
 ```
 
-- まとめると以下のプログラムになる
-
 - 入力画像を``soya.jpeg``とする
 <img src="./soya.jpeg" width="50%">
 

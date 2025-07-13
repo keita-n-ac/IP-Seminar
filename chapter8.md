@@ -382,7 +382,7 @@ print(len(result2))
 print(result2[0])
 print(result2[1])
 ```
-- n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である最初の4つの数値は検知した長方形領域（バウンディングボック）のパラメータを示す
+- n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**最初の4つの数値は検知した長方形領域（バウンディングボック）のパラメータを示す**
   - 1つ目の値が長方形領域の左上のX座標，アクセス方法: ``結果変数2[n-1][0]``
   - 2つ目の値が長方形領域の左上のY座標，アクセス方法: ``結果変数2[n-1][1]``
   - 3つ目の値が長方形領域の幅，アクセス方法: ``結果変数2[n-1][2]``
@@ -426,4 +426,312 @@ cv2.rectangle(image, (x1, y1, w1, h1), (0, 255, 0), 10)
 
 plt.imshow(image)
 plt.show()
+```
+
+- n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**5つ目と6つ目の数値は『検知した顔における右目の座標』を示す**
+  - 5つ目の値が右目のx座標，アクセス方法: ``結果変数2[n-1][4]``
+  - 6つ目の値が右目のy座標，アクセス方法: ``結果変数2[n-1][5]``
+  - ``cv2.circle()``などを使用して表示できる
+
+- ここまでのプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目の右目を求める
+x0 = int(result2[0][4])
+y0 = int(result2[0][5])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+
+# 二人目の右目を求める
+x1 = int(result2[1][4])
+y1 = int(result2[1][5])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+
+plt.imshow(image)
+plt.show()
+```
+
+- n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**7つ目と8つ目の数値は『検知した顔における左目の座標』を示す**
+  - 7つ目の値が左目のx座標，アクセス方法: ``結果変数2[n-1][6]``
+  - 8つ目の値が左目のy座標，アクセス方法: ``結果変数2[n-1][7]``
+  - ``cv2.circle()``などをを使用して表示できる
+
+- ここまでのプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目の左目を求める
+x0 = int(result2[0][6])
+y0 = int(result2[0][7])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+
+# 二人目の左目を求める
+x1 = int(result2[1][6])
+y1 = int(result2[1][7])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+
+plt.imshow(image)
+plt.show()
+```
+
+- n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**9つ目と10つ目の数値は『検知した顔における鼻の座標』を示す**
+  - 9つ目の値が鼻のx座標，アクセス方法: ``結果変数2[n-1][8]``
+  - 10つ目の値が鼻のy座標，アクセス方法: ``結果変数2[n-1][9]``
+  - ``cv2.circle()``などをを使用して表示できる
+- ここまでのプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目の鼻を求める
+x0 = int(result2[0][8])
+y0 = int(result2[0][9])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+
+# 二人目の鼻を求める
+x1 = int(result2[1][8])
+y1 = int(result2[1][9])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+
+plt.imshow(image)
+plt.show()
+```
+
+- n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**11つ目と12つ目の数値は『検知した顔における右口角の座標』を示す**
+  - 11つ目の値が右口角のx座標，アクセス方法: ``結果変数2[n-1][10]``
+  - 12つ目の値が右口角のy座標，アクセス方法: ``結果変数2[n-1][11]``
+  - ``cv2.circle()``などを使用して表示できる
+- ここまでのプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目の右口角を求める
+x0 = int(result2[0][10])
+y0 = int(result2[0][11])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+
+# 二人目の右口角を求める
+x1 = int(result2[1][10])
+y1 = int(result2[1][11])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+
+plt.imshow(image)
+plt.show()
+```
+- n番目の結果にアクセスした時（``print(結果変数2[n-1]``)）に得られた結果である**13つ目と14つ目の数値は『検知した顔における右口角の座標』を示す**
+  - 13つ目の値が左口角のx座標，アクセス方法: ``結果変数2[n-1][12]``
+  - 14つ目の値が左口角のy座標，アクセス方法: ``結果変数2[n-1][13]``
+  - ``cv2.circle()``などを使用して表示できる
+- ここまでのプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目の左口角を求める
+x0 = int(result2[0][12])
+y0 = int(result2[0][13])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+
+# 二人目の左口角を求める
+x1 = int(result2[1][12])
+y1 = int(result2[1][13])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+
+plt.imshow(image)
+plt.show()
+```
+
+- n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**15つ目の数値（最後の値）は『検知した顔に対する信頼度』を示す**
+  - 15つ目の値が検知した顔に対する信頼度，アクセス方法: ``結果変数2[n-1][14]``
+    - この信頼度の値は小数で問題無い
+- ここまでのプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目の顔検知信頼度を表示する
+print('一人目の顔検知信頼度:', result2[0][14])
+
+# 二人目の顔検知信頼度を表示する
+print('二人目の顔検知信頼度:', result2[1][14])
+```
+- 出力結果
+```
+一人目の顔検知信頼度: 0.93403465
+二人目の顔検知信頼度: 0.93380207
+```
+- 二人とも93%の信頼度で検知てきでいることがわかる
+
+- ここまでのまとめプログラム
+```python
+import cv2
+import matplotlib.pyplot as plt
+
+# YuNetの読み込み
+face_detector = cv2.FaceDetectorYN.create("face_detection_yunet_2023mar.onnx", "", (0, 0))
+
+# データ読み込み
+image = cv2.imread("people-sample.jpg")
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# 入力サイズを指定する
+height, width, channel = image.shape
+face_detector.setInputSize((width, height))
+
+# 顔を検出する
+result1, result2 = face_detector.detect(image)
+
+# 一人目のバウンディングボックスを求める
+x0 = int(result2[0][0])
+y0 = int(result2[0][1])
+w0 = int(result2[0][2])
+h0 = int(result2[0][3])
+cv2.rectangle(image, (x0, y0, w0, h0), (255, 0, 0), 10)
+# 一人目の右目を求める
+x0 = int(result2[0][4])
+y0 = int(result2[0][5])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+# 一人目の左目を求める
+x0 = int(result2[0][6])
+y0 = int(result2[0][7])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+# 一人目の鼻を求める
+x0 = int(result2[0][8])
+y0 = int(result2[0][9])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+# 一人目の右口角を求める
+x0 = int(result2[0][10])
+y0 = int(result2[0][11])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+# 一人目の左口角を求める
+x0 = int(result2[0][12])
+y0 = int(result2[0][13])
+cv2.circle(image, (x0, y0), 15, (255, 0, 0), -1)
+# 一人目の顔検知信頼度を表示する
+print('一人目の顔検知信頼度:', result2[0][14])
+
+# 二人目のバウンディングボックスを求める
+x1 = int(result2[1][0])
+y1 = int(result2[1][1])
+w1 = int(result2[1][2])
+h1 = int(result2[1][3])
+cv2.rectangle(image, (x1, y1, w1, h1), (0, 255, 0), 10)
+# 二人目の右目を求める
+x1 = int(result2[1][4])
+y1 = int(result2[1][5])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+# 二人目の左目を求める
+x1 = int(result2[1][6])
+y1 = int(result2[1][7])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+# 二人目の鼻を求める
+x1 = int(result2[1][8])
+y1 = int(result2[1][9])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+# 二人目の右口角を求める
+x1 = int(result2[1][10])
+y1 = int(result2[1][11])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+# 二人目の左口角を求める
+x1 = int(result2[1][12])
+y1 = int(result2[1][13])
+cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
+# 二人目の顔検知信頼度を表示する
+print('二人目の顔検知信頼度:', result2[1][14])
+
+plt.imshow(image)
+plt.show()
+```
+
+- 出力結果
+```
+一人目の顔検知信頼度: 0.93403465
+二人目の顔検知信頼度: 0.93380207
 ```

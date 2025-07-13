@@ -16,6 +16,32 @@ kernel_33 = np.ones((3,3), np.float32)/9
 kernel_55 = np.ones((5,5), np.float32)/25
 ```
 
+- サンプルプログラム
+```python
+# カーネルの表示
+import numpy as np
+kernel_33 = np.ones((3,3), np.float32)/9
+kernel_55 = np.ones((5,5), np.float32)/25
+print('3 * 3カーネル')
+print(kernel_33)
+print('5 * 5カーネル')
+print(kernel_55)
+```
+- 出力結果
+```
+3 * 3カーネル
+[[0.11111111 0.11111111 0.11111111]
+ [0.11111111 0.11111111 0.11111111]
+ [0.11111111 0.11111111 0.11111111]]
+5 * 5カーネル
+[[0.04 0.04 0.04 0.04 0.04]
+ [0.04 0.04 0.04 0.04 0.04]
+ [0.04 0.04 0.04 0.04 0.04]
+ [0.04 0.04 0.04 0.04 0.04]
+ [0.04 0.04 0.04 0.04 0.04]]
+```
+
+- サンプルプログラム（フィルタの作成・適用）
 ```python
 # 平均値フィルタを行う
 import numpy as np
@@ -37,8 +63,10 @@ after_image = cv2.filter2D(image, -1, kernel)
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./ave-filter.png" width="60%">
 
-- サンプル
+- サンプルプログラム
 ```python
 # カーネルの大きさによる違い
 import numpy as np
@@ -75,10 +103,15 @@ plt.imshow(after_image)
 
 plt.show()
 ```
+- 出力結果
+<img src="./ave-filter3.png" width="100%">
+
 
 ### 平均化フィルタ
 - ``cv2.blur()``を使用することで，平均化フィルタを適用できる
 - 実装例: ``平均化フィルタ画像変数 = cv2.blur(入力画像変数, (カーネルの大きさ, カーネルの大きさ))``
+
+- サンプルプログラム
 ```python
 # 平均化フィルタを適用する
 import cv2
@@ -98,6 +131,8 @@ after_image = cv2.blur(image, (5, 5))
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./ave-filter.png" width="60%">
 
 ### ガウシアンフィルタ
 - ``cv2.GaussianBlur()``を使用することで，加重平均フィルタの1つであるガウシアンフィルタを適用できる
@@ -121,6 +156,8 @@ after_image = cv2.GaussianBlur(image, (5, 5), 0)
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./gaussian.png" width="30%">
 
 ### バイラテラルフィルタ
 - ``cv2.bilateralFilter()``を使用することで，加重平均フィルタの1つであるバイラテラルフィルタを適用できる
@@ -145,6 +182,8 @@ after_image = cv2.bilateralFilter(image, 9, 100, 100)
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./bilateral.png" width="30%">
 
 ### 中央値フィルタ
 - ``cv2.medianBlur()``を使用することで，中央値フィルタを適用できる
@@ -176,6 +215,9 @@ plt.title('After Filtering')
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./median-filter-result.png" width="100%">
+
 
 ### 微分オペレータ
 - OpenCVでは単純な微分オペレータは用意されていないため，カーネルを自作する
@@ -186,9 +228,10 @@ kernel = np.array([[0,0,0],
                    [0,0,0]])
 フィルタリング後画像変数 = cv2.filter2D(画像変数, -1, kernel)
 ```
-- 適用画像（window.jpg）
+- 適用画像（``window.jpg``）
+<img src="./window.jpg" width="70%">
 
-- サンプル
+- サンプルプログラム
 ```python
 # 微分オペレータを行う
 import numpy as np
@@ -213,8 +256,10 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./differ-h.png" width="90%">
 
-- サンプル
+- サンプルプログラム
 ```python
 # 微分オペレータを行う
 import numpy as np
@@ -239,6 +284,8 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./differ-v.png" width="90%">
 
 ### ソーベルオペレータ
 - ``cv2.Sobel()``を使用することで，ソーベルフィルタを適用できる
@@ -247,6 +294,7 @@ plt.show()
   - 横方向ソーベルオペレータ: ``ソーベルオペレータ変数 = cv2.Sobel(画像変数, cv2.CV_8U, 1, 0, カーネルの大きさ)``
   - 縦方向ソーベルオペレータ: ``ソーベルオペレータ変数 = cv2.Sobel(画像変数, cv2.CV_8U, 0, 1, カーネルの大きさ)``
 
+- サンプルプログラム
 ```python
 # ソーベルオペレータを行う
 import cv2
@@ -265,7 +313,10 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./sobel-h.png" width="90%">
 
+- サンプルプログラム
 ```python
 # ソーベルオペレータを行う
 import cv2
@@ -284,10 +335,14 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./sobel-v.png" width="90%">
+
 
 ### ラプラシアンオペレータ
 - ``cv2.Laplacian()``を使用することで，ソーベルフィルタを適用できる
 - 実装例: ``ラプラシアンオペレータ変数 = cv2.Laplacian(画像変数, cv2.CV_8U, 1)``
+
 - サンプルプログラム
 ```python
 # ラプラシアンオペレータを行う
@@ -307,11 +362,14 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./laplacian.png" width="90%">
 
 ### Cannyのエッジ検出
 - ``cv2.Canny()``を使用することで，Cannyのエッジ検出を使用できる
 - 実装例: ``Cannyのエッジ検出変数 = cv2.Canny(画像変数, しきいA, しきいB)``
   - ただし，**しきいA < しきいB**にする
+
 - サンプルプログラム
 ```python
 # Cannyのエッジ検出を行う
@@ -331,6 +389,9 @@ plt.imshow(after_image)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./canny.png" width="90%">
+
 
 ### 鮮鋭化フィルタ処理
 - OpenCVでは単純な鮮鋭化フィルタは用意されていないため，カーネルを自作する
@@ -350,7 +411,10 @@ kernel = np.array([[-k, -k, -k],
                    [-k, -k, -k]])
 フィルタリング後画像変数 = cv2.filter2D(画像変数, -1, kernel)
 ```
-- 適用画像（church.jpg）
+
+- 適用画像（``church.jpg``）
+<img src="./church.jpg" width="90%">
+
 
 - サンプルプログラム
 ```python
@@ -381,3 +445,6 @@ plt.title('After filtering')
 plt.imshow(after_image)
 plt.show()
 ```
+- 出力結果
+<img src="./sharpening.png" width="90%">
+

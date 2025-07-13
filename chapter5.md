@@ -14,17 +14,22 @@ image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) # BGR → HSV
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./hsv-miss.png" width="60%">
 
 ```python
 import cv2
 import matplotlib.pyplot as plt
-image = cv2.imread('boston.jpeg')
+image = cv2.imread('nikka.jpeg')
 image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV) # BGR → HSV
 image = cv2.cvtColor(image, cv2.COLOR_HSV2RGB) # HSV → RGB
 
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./nikka-hsv.png" width="60%">
+
 
 ### RGB色空間
 - OpenCVでは，RGBでデータを扱う場合，以下の方法でRGBの各値を取得できる
@@ -32,7 +37,7 @@ plt.show()
   - 緑画素値: ``RGB画像変数[:,:,1]``
   - 青画素値: ``RGB画像変数[:,:,2]``
 
-
+- サンプルプログラム
 ```python
 import cv2
 image = cv2.imread('nikka.jpeg')
@@ -51,7 +56,35 @@ print(green)
 print('blue')
 print(blue)
 ```
+- 出力結果
+```
+red
+[[ 26  27  26 ...  20  34 160]
+ [ 26  27  26 ...  23  33 155]
+ [ 24  29  26 ...  24  31 153]
+ ...
+ [ 50  51  64 ...  57  54  55]
+ [ 48  57  53 ...  56  53  55]
+ [ 46  54  52 ...  56  52  51]]
+green
+[[ 20  21  20 ...  18  29 166]
+ [ 20  21  20 ...  19  27 161]
+ [ 20  20  20 ...  20  26 160]
+ ...
+ [ 46  47  60 ...  52  49  50]
+ [ 42  53  49 ...  51  48  50]
+ [ 42  50  51 ...  51  47  46]]
+blue
+[[ 20  23  20 ...  19  33 164]
+ [ 20  21  20 ...  18  29 157]
+ [ 21  21  22 ...  21  30 153]
+ ...
+ [ 45  44  57 ...  46  43  44]
+ [ 42  50  48 ...  45  42  44]
+ [ 39  47  49 ...  45  41  40]]
+```
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -81,11 +114,13 @@ plt.plot(blue_hist, color='b')
 
 plt.show()
 ```
-
+- 出力結果
+<img src="./nikka-rgb-3hist.png" width="90%">
 
 - RGBからグレースケールの式は，``Y = 0.2126R + 0.7152G + 0.0722B``であるため，
   - ``グレースケール画素値変数 = 0.2126 * 赤画素値変数 + 0.7152 * 緑画素値変数 + 0.0722 * 青画素値変数``というプログラムはグレースケースへ変換を意味する
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -102,7 +137,10 @@ plt.imshow(Y)
 plt.gray()
 plt.show()
 ```
+- 出力結果
+<img src="./nikka-y.png" width="60%">
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -130,6 +168,8 @@ plt.imshow(after_image)
 
 plt.show()
 ```
+- 出力結果
+<img src="./nikka-gray2.png" width="90%">
 
 ### BGR色空間
 - OpenCVでは，BGRでデータを扱う場合，以下の方法でRGBの各値を取得できる
@@ -137,6 +177,7 @@ plt.show()
   - 緑画素値: ``BGR画像変数[:,:,1]``
   - 青画素値: ``BGR画像変数[:,:,0]``
 
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -166,6 +207,8 @@ plt.plot(blue_hist, color='b')
 
 plt.show()
 ```
+- 出力結果
+<img src="./nikka-rgb-3hist.png" width="90%">
 
 ### HSV色空間
 - OpenCVでは，HSVでデータを扱う場合，以下の方法でHSVの各値を取得できる
@@ -194,6 +237,35 @@ print('value')
 print(value)
 ```
 
+- 出力結果
+```
+hue
+[[  0 170   0 ... 165 156  80]
+ [  0   0   0 ...   6 170  70]
+ [173 177 170 ... 173 156  60]
+ ...
+ [  6  13  13 ...  16  16  16]
+ [  0  13   6 ...  16  16  16]
+ [ 13  13  20 ...  16  16  16]]
+saturation
+[[59 57 59 ... 26 38  9]
+ [59 57 59 ... 55 46 10]
+ [43 79 59 ... 43 41 11]
+ ...
+ [26 35 28 ... 49 52 51]
+ [32 31 24 ... 50 53 51]
+ [39 33 15 ... 50 54 55]]
+value
+[[ 26  27  26 ...  20  34 166]
+ [ 26  27  26 ...  23  33 161]
+ [ 24  29  26 ...  24  31 160]
+ ...
+ [ 50  51  64 ...  57  54  55]
+ [ 48  57  53 ...  56  53  55]
+ [ 46  54  52 ...  56  52  51]]
+```
+
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -239,6 +311,8 @@ plt.plot(value_hist)
 
 plt.show()
 ```
+- 出力結果
+<img src="./nikka-hsv-hist.png" width="90%">
 
 ### HSV色空間
 - HSV色空間は色彩が0から360の値になるので，色彩の値を絞りこむことで特定の色を抽出できる
@@ -256,6 +330,8 @@ plt.show()
     - 90付近: シアン色
     - 120付近: 青色
     - 150付近: マゼンタ色
+- 色彩目安
+<img src="./colorbar.png" width="90%">
 
 ### HSVを使用したマスク画像の作成
 - OpenCVの``cv2.inRange``を使用することで，HSVの要素によるマスク画像を作成できる

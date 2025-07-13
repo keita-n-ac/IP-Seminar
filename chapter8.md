@@ -16,8 +16,11 @@
 
 - 本セミナーでは．``haarcascade_frontalface_default.xml``と``haarcascade_frontalcatface.xml``を使用する
 
-- 適用画像（``person-sample.jpg``）
-- 適用画像（``people-sample.jpg``）
+- 適用画像1（``person-sample.jpg``）
+<img src="./person-sample.jpg" width="25%">
+
+- 適用画像2（``people-sample.jpg``）
+<img src="./people-sample.jpg" width="45%">
 
 ### 学習済みカスケード分類器の使い方
 - 正面顔を分類する``haarcascade_frontalface_default.xml``を使用する
@@ -27,6 +30,7 @@
   - 実装例: ``分類結果 = カスケード分類器変数.detectMultiScale(データ変数)``
 
 - ここまでのプログラム
+  - 一人画像の場合
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -74,6 +78,12 @@ print(len(result))
 print(result)
 print(result[0])
 ```
+- 出力結果
+```
+1
+[[319 431 151 151]]
+[319 431 151 151]
+```
 
 - n番目の結果にアクセスした時（``print(分類結果変数[n-1])``）に得られた結果である
   - 出力結果``[整数A, 整数B, 整数C, 整数D]``は検知した長方形領域（バウンディングボックス）のパラメータを示す
@@ -83,43 +93,8 @@ print(result[0])
     - 整数Dが長方形領域の高さ，アクセス方法: ``分類結果変数[n-1][3]``
   - 検知した長方形領域を``cv2.rectangle()``を使用して取り囲んで表示する
 
-- ここまでのプログラム
+- ここまでのまとめ
 ```python
-
-import cv2
-import matplotlib.pyplot as plt
-
-# カスケード型分類器の読み込み
-cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-
-# データ読み込み
-image = cv2.imread("person-sample.jpg")
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-# 読み込んだデータを分類器に適用
-result = cascade.detectMultiScale(image)
-
-# resultに検出結果が格納される
-
-# resultの中身を見る
-print(len(result))
-print(result)
-print(result[0])
-
-x = result[0][0] # 検知領域の左上のX座標
-y = result[0][1] # 検知領域の左上のY座標
-w = result[0][2] # 検知領域の幅
-h = result[0][3] # 検知領域の高さ
-cv2.rectangle(image, (x, y, w, h), (255, 0, 0), 10)
-plt.imshow(image)
-plt.show()
-```
-
-- まとめると
-```python
-
-
-# まとめると
 import cv2
 import matplotlib.pyplot as plt
 
@@ -141,6 +116,8 @@ cv2.rectangle(image, (x, y, w, h), (255, 0, 0), 10)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./detect-person.png" width="55%">
 
 - 複数人の場合
 ```python
@@ -158,6 +135,10 @@ image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 result = cascade.detectMultiScale(image)
 
 print(len(result))
+```
+- 出力結果
+```
+3
 ```
 
 - 検知数が3であるため，誤検知していることがわかる
@@ -201,6 +182,8 @@ cv2.rectangle(image, (x2, y2, w2, h2), (0, 0, 255), 10)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./detect-people-miss.png" width="65%">
 
 - 3番目の結果（青枠）が誤検知していることがわかるので，その表示を止める
 ```python
@@ -235,8 +218,17 @@ cv2.rectangle(image, (x1, y1, w1, h1), (0, 255, 0), 10)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./detect-people.png" width="65%">
 
-- サンプルプログラム（猫の検知）
+
+- 猫の検知を同様に行う
+  - **カスケード型分類器の読み込みで使用するファイルを変更することに注意**
+
+- 適用画像: ``green_cat.jpg``
+<img src="./green_cat.jpg" width="55%">
+
+- サンプルプログラム
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -252,6 +244,11 @@ image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 result = cascade.detectMultiScale(image)
 
 print(len(result))
+```
+
+- 出力結果
+```
+2
 ```
 
 - 検知数が多いため，誤検知していることがわかる
@@ -287,6 +284,8 @@ cv2.rectangle(image, (x1, y1, w1, h1), (0, 0, 255), 10)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./detect-cat-miss.png" width="65%">
 
 - 2番目の結果（青枠）が誤検知していることがわかるので，その表示を止める
 ```python
@@ -313,10 +312,13 @@ cv2.rectangle(image, (x0, y0, w0, h0), (255, 0, 0), 10)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./detect-cat.png" width="65%">
+
 
 ### YuNetによる顔検出
 - 最新の顔検出方法であるYuNetを使用する
-  - 顔を囲むバウンディングボックスと右目、左目、鼻、右口角、左口角の5箇所を検出できる
+  - **顔を囲むバウンディングボックスと右目、左目、鼻、右口角、左口角の5箇所を検出できる**
   - https://github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet に詳細が記載されております
 
 - YuNetの使い方
@@ -352,13 +354,14 @@ result1, result2 = face_detector.detect(image)
 # 変数result2に結果が格納されている
 ```
 
-
 ### YuNet結果の扱い方
 - ``print(len(結果変数2))``とすることで，検知数を取得できる
 - ``print(結果変数2)``とすることで，検知した結果を取得できる
   - 1つ目の結果にアクセスする場合: ``print(結果変数2[0])``とする
   - 2つ目の結果にアクセスする場合: ``print(結果変数2[1])``とする
   - n番目の結果にアクセスする場合: ``print(結果変数2[n-1])``とする
+    - **コンピュータでは0番から数えるため注意が必要**
+    - 
 - ここまでのプログラム
 ```python
 import cv2
@@ -382,6 +385,18 @@ print(len(result2))
 print(result2[0])
 print(result2[1])
 ```
+- 出力結果
+```
+2
+[673.829      293.1552     279.114      341.34976    730.10516
+ 446.01666    853.9047     421.60953    796.21277    501.76535
+ 761.8499     554.8684     875.31665    534.24677      0.93403465]
+[401.2465     274.34882    247.79082    325.27573    476.43835
+ 406.13788    590.2041     413.1334     533.3597     477.83997
+ 472.28116    511.49542    578.2695     516.8898       0.93380207]
+```
+- 検知数が2であることがわかる
+
 - n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**最初の4つの数値は検知した長方形領域（バウンディングボック）のパラメータを示す**
   - 1つ目の値が長方形領域の左上のX座標，アクセス方法: ``結果変数2[n-1][0]``
   - 2つ目の値が長方形領域の左上のY座標，アクセス方法: ``結果変数2[n-1][1]``
@@ -427,6 +442,9 @@ cv2.rectangle(image, (x1, y1, w1, h1), (0, 255, 0), 10)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./boundingbox.png" width="65%">
+
 
 - n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**5つ目と6つ目の数値は『検知した顔における右目の座標』を示す**
   - 5つ目の値が右目のx座標，アクセス方法: ``結果変数2[n-1][4]``
@@ -465,6 +483,8 @@ cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./right-eye.png" width="65%">
 
 - n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**7つ目と8つ目の数値は『検知した顔における左目の座標』を示す**
   - 7つ目の値が左目のx座標，アクセス方法: ``結果変数2[n-1][6]``
@@ -503,6 +523,8 @@ cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./left-eye.png" width="65%">
 
 - n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**9つ目と10つ目の数値は『検知した顔における鼻の座標』を示す**
   - 9つ目の値が鼻のx座標，アクセス方法: ``結果変数2[n-1][8]``
@@ -540,6 +562,8 @@ cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./nose.png" width="65%">
 
 - n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**11つ目と12つ目の数値は『検知した顔における右口角の座標』を示す**
   - 11つ目の値が右口角のx座標，アクセス方法: ``結果変数2[n-1][10]``
@@ -577,6 +601,9 @@ cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./right-mouth.png" width="65%">
+
 - n番目の結果にアクセスした時（``print(結果変数2[n-1]``)）に得られた結果である**13つ目と14つ目の数値は『検知した顔における右口角の座標』を示す**
   - 13つ目の値が左口角のx座標，アクセス方法: ``結果変数2[n-1][12]``
   - 14つ目の値が左口角のy座標，アクセス方法: ``結果変数2[n-1][13]``
@@ -613,6 +640,8 @@ cv2.circle(image, (x1, y1), 15, (0, 255, 0), -1)
 plt.imshow(image)
 plt.show()
 ```
+- 出力結果
+<img src="./left-mouth.png" width="65%">
 
 - n番目の結果にアクセスした時（``print(結果変数2[n-1])``）に得られた結果である**15つ目の数値（最後の値）は『検知した顔に対する信頼度』を示す**
   - 15つ目の値が検知した顔に対する信頼度，アクセス方法: ``結果変数2[n-1][14]``
@@ -731,7 +760,4 @@ plt.show()
 ```
 
 - 出力結果
-```
-一人目の顔検知信頼度: 0.93403465
-二人目の顔検知信頼度: 0.93380207
-```
+<img src="./yunet.png" width="65%">

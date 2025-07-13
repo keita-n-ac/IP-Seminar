@@ -75,10 +75,7 @@ plt.show()
   - そこで，``cv2.cvtColor``を使用する
     - 読み込んだ色の順番の変更を行う
   - ``cv2.COLOR_BGR2RGB``がBGRからRGBに変換する命令
-
-```python
-画像変数 = cv2.cvtColor(画像変数, cv2.COLOR_BGR2RGB)
-```
+    - 実装例: ``画像変数 = cv2.cvtColor(画像変数, cv2.COLOR_BGR2RGB)``
 
 - サンプルプログラム
 ```python

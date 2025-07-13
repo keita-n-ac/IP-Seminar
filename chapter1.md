@@ -57,7 +57,7 @@ plt.show()
 - 入力画像を``soya.jpeg``とする
 <img src="./soya.jpeg" width="50%">
 
-- サンプルプログラム
+- サンプルプログラム（ただし失敗する）
 ```python
 import cv2
 import matplotlib.pyplot as plt

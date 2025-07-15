@@ -191,8 +191,8 @@ plt.show()
 
 - 実装例: ``中央値フィルタ画像変数 = cv2.medianBlur(画像変数, カーネルの大きさ)``
 
-- 適用画像（``nikka_noise.jpeg``）
-<img src="./nikka_noise.jpeg" width="30%">
+- 適用画像（``nikka-noise.jpeg``）
+<img src="./nikka-noise.jpeg" width="30%">
 
 - サンプル
 ```python
@@ -201,7 +201,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 # 画像の読み込み
-image = cv2.imread('nikka_noise.jpeg')
+image = cv2.imread('nikka-noise.jpeg')
 
 # BGR → RGB
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

@@ -188,8 +188,12 @@ plt.show()
 ### 中央値フィルタ
 - ``cv2.medianBlur()``を使用することで，中央値フィルタを適用できる
   - **中央値フィルタはごま塩ノイズを消すことができる特徴がある**
+
 - 実装例: ``中央値フィルタ画像変数 = cv2.medianBlur(画像変数, カーネルの大きさ)``
-- 適用画像（nikka_noise.jpeg）
+
+- 適用画像（``nikka_noise.jpeg``）
+<img src="./nikka_noise.jpeg" width="30%">
+
 - サンプル
 ```python
 # 中央値フィルタを適用する
